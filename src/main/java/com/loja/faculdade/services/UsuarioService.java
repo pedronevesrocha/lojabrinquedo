@@ -32,11 +32,8 @@ public class UsuarioService {
 	}
 
 	public Usuario insert(Usuario usuario) {
-		if (usuario.getName() == null || usuario.getPassword() == null || usuario.getUsername() == null
-				|| usuario.getRoles() == null) {
-			throw new InvalidUserException("Campos obrigatórios não preenchidos.");
-		}
-		return usuarioRepository.save(usuario);
+		
+		return usuarioRepository.saveAndFlush(usuario);
 	}
 
 	public Usuario update(Usuario usuario) throws UserNotFoundException {
