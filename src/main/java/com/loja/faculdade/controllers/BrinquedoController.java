@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.loja.faculdade.entities.Brinquedo;
+import com.loja.faculdade.entities.enums.CategoriaEnum;
 import com.loja.faculdade.entities.exceptions.BrinquedoNotFoundException;
 import com.loja.faculdade.entities.exceptions.InvalidBrinquedoException;
 import com.loja.faculdade.services.BrinquedoService;
@@ -26,7 +27,7 @@ public class BrinquedoController {
 	@Autowired
 	private BrinquedoService brinquedoService;
 
-	@GetMapping("/all")
+	@GetMapping()
 	public ResponseEntity<List<Brinquedo>> getAll() {
 		List list = brinquedoService.findAll();
 		return ResponseEntity.ok(list);
@@ -42,7 +43,7 @@ public class BrinquedoController {
 		}
 	}
 
-	@PostMapping("/insert")
+	@PostMapping()
 	public ResponseEntity<?> insertBrinquedo(@RequestBody Brinquedo brinquedo) {
 		try {
 			Brinquedo brinquedo1 = brinquedoService.insert(brinquedo);
@@ -52,7 +53,13 @@ public class BrinquedoController {
 		}
 	}
 
-	@PutMapping("/update/{id}")
+	@GetMapping("/valores")
+    public ResponseEntity<CategoriaEnum[]> getCategoriaEnumValores() {
+        CategoriaEnum[] valores = CategoriaEnum.values();
+        return ResponseEntity.ok(valores);
+    }
+
+	@PutMapping("/{id}")
 	public ResponseEntity<?> updateBrinquedo(@PathVariable Long id, @RequestBody Brinquedo updatedBrinquedo) {
 		try {
 			updatedBrinquedo.setId(id);
@@ -68,7 +75,7 @@ public class BrinquedoController {
 		}
 	}
 
-	@DeleteMapping("/delete/{id}")
+	@DeleteMapping("/{id}")
 	public ResponseEntity<?> delete(@PathVariable Long id) {
 		try {
 			brinquedoService.delete(id);

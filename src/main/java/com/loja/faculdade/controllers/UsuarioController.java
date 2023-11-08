@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,6 +20,7 @@ import com.loja.faculdade.entities.exceptions.InvalidUserException;
 import com.loja.faculdade.entities.exceptions.UserNotFoundException;
 import com.loja.faculdade.services.UsuarioService;
 
+
 @RestController
 @RequestMapping("/usuario")
 public class UsuarioController {
@@ -26,13 +28,13 @@ public class UsuarioController {
     @Autowired
     private UsuarioService usuarioService;
 
-    @GetMapping("/all")
+    @GetMapping()
     public ResponseEntity<List<Usuario>> getAllUsuarios() {
-        List<Usuario> list = usuarioService.findAll();
+        List list = usuarioService.findAll();
         return ResponseEntity.ok(list);
     }
 
-    @GetMapping("/find/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<?> getUsuarioById(@PathVariable Long id) {
         try {
             Usuario usuario = usuarioService.findById(id);
@@ -43,7 +45,7 @@ public class UsuarioController {
     }
 
 
-    @PostMapping("/add")
+    @PostMapping()
     public ResponseEntity<?> insertUsuario(@RequestBody Usuario usuario) {
         try {
             Usuario usuario1 = usuarioService.insert(usuario);
@@ -54,7 +56,7 @@ public class UsuarioController {
     }
 
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<?> updateUsuario(@PathVariable Long id, @RequestBody Usuario updatedUsuario) {
         try {
             updatedUsuario.setId(id);
@@ -71,7 +73,7 @@ public class UsuarioController {
     }
 
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteUsuario(@PathVariable Long id) {
         try {
             usuarioService.delete(id);

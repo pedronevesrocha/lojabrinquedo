@@ -1,10 +1,6 @@
 package com.loja.faculdade.entities;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.loja.faculdade.entities.enums.UserRoleEnum;
@@ -16,9 +12,6 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -45,6 +38,13 @@ public class Usuario {
 	public Usuario() {
 
 	}
+
+	public boolean isValid() {
+        return name != null && !name.trim().isEmpty() &&
+               username != null && !username.trim().isEmpty() &&
+               password != null && !password.trim().isEmpty();
+    }
+	
 
 	public Usuario(String username, String senha, UserRoleEnum role) {
 		this.username = username;
@@ -97,6 +97,7 @@ public class Usuario {
 		return Objects.hash(id);
 	}
 
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -106,7 +107,7 @@ public class Usuario {
 		if (getClass() != obj.getClass())
 			return false;
 		Usuario other = (Usuario) obj;
-		return id == other.id;
+		return Objects.equals(id, other.id);
 	}
 
 }
